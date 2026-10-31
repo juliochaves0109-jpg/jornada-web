@@ -2,7 +2,8 @@ name: Publicar Jornada.Web
 
 on:
 push:
-branches: [main]
+branches:
+- principal
 workflow_dispatch:
 
 permissions:
@@ -17,11 +18,12 @@ cancel-in-progress: true
 jobs:
 build:
 runs-on: ubuntu-latest
-steps:
-- name: Baixar o projeto
-uses: actions/checkout@v4
 
 ```
+steps:
+  - name: Baixar o projeto
+    uses: actions/checkout@v4
+
   - name: Configurar Node.js
     uses: actions/setup-node@v4
     with:
@@ -43,5 +45,6 @@ uses: actions/checkout@v4
       path: ./dist
 
   - name: Publicar site
+    id: deployment
     uses: actions/deploy-pages@v4
 ```
