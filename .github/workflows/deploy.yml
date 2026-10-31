@@ -1,9 +1,9 @@
-name: Publicar Jornada.Web
+name: Publicar Jornada Web
 
 on:
 push:
 branches:
-- principal
+- main
 workflow_dispatch:
 
 permissions:
@@ -11,23 +11,18 @@ contents: read
 pages: write
 id-token: write
 
-concurrency:
-group: pages
-cancel-in-progress: true
-
 jobs:
 build:
 runs-on: ubuntu-latest
+steps:
+- name: Baixar o projeto
+uses: actions/checkout@v4
 
 ```
-steps:
-  - name: Baixar o projeto
-    uses: actions/checkout@v4
-
   - name: Configurar Node.js
     uses: actions/setup-node@v4
     with:
-      node-version: 22
+      node-version: '22'
       cache: npm
 
   - name: Instalar dependências
@@ -36,15 +31,14 @@ steps:
   - name: Compilar o site
     run: npm run build
 
-  - name: Configurar GitHub Pages
+  - name: Preparar GitHub Pages
     uses: actions/configure-pages@v5
 
-  - name: Preparar arquivos
+  - name: Preparar arquivos do site
     uses: actions/upload-pages-artifact@v3
     with:
       path: ./dist
 
   - name: Publicar site
-    id: deployment
     uses: actions/deploy-pages@v4
 ```
