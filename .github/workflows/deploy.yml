@@ -1,4 +1,4 @@
-name: Publicar Jornada.Web
+name: Publicar Jornada Web
 
 on:
 push:
