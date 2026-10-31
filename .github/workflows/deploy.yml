@@ -2,7 +2,8 @@ name: Publicar Jornada.Web
 
 on:
 push:
-branches: [main]
+branches:
+- main
 workflow_dispatch:
 
 permissions:
@@ -31,7 +32,7 @@ uses: actions/checkout@v4
   - name: Instalar dependências
     run: npm ci
 
-  - name: Compilar o site
+  - name: Compilar o projeto
     run: npm run build
 
   - name: Configurar GitHub Pages
@@ -41,7 +42,15 @@ uses: actions/checkout@v4
     uses: actions/upload-pages-artifact@v3
     with:
       path: ./dist
-
-  - name: Publicar site
-    uses: actions/deploy-pages@v4
 ```
+
+deploy:
+needs: build
+runs-on: ubuntu-latest
+environment:
+name: github-pages
+url: ${{ steps.deployment.outputs.page_url }}
+steps:
+- name: Publicar site
+id: deployment
+uses: actions/deploy-pages@v4
